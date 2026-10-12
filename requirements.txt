@@ -9,3 +9,4 @@ db-dtypes==1.7.1
 pyarrow==25.0.1
 pymongo==4.18.1
 pytest==9.1.1
+
