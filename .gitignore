@@ -1,0 +1,10 @@
+.env
+secrets/
+data/
+.venv/
+.venv-dbt/
+__pycache__/
+mlruns/
+dbt/credit_scoring/target/
+dbt/credit_scoring/logs/
+Case study_ credit scoring from bank transactions.html
