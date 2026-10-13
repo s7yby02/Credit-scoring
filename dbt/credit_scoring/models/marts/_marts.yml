@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: fct_applicant_features
+    description: Point-in-time features per loan application (180-day lookback).
+    columns:
+      - name: application_id
+        data_tests: [unique, not_null]
+      - name: avg_monthly_income
+        data_tests: [not_null]
+      - name: n_rejected_debits
+        data_tests: [not_null]
+
+  - name: training_dataset
+    columns:
+      - name: application_id
+        data_tests: [unique, not_null]
+      - name: defaulted
+        data_tests: [not_null]

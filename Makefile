@@ -8,6 +8,8 @@ export GOOGLE_APPLICATION_CREDENTIALS := $(CURDIR)/secrets/gcp-key.json
 PY := .venv/bin/python
 DBT := .venv-dbt/bin/dbt
 
+.PHONY: data prod prod-drift load load-prod dbt train drift test score
+
 data:        ## training batch: 3,000 applications with known outcomes
 	$(PY) generator/generate.py --batch train --users 3000 --start 2024-01-01 --end 2025-09-30
 prod:        ## recent applications, same population
