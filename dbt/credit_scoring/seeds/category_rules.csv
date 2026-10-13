@@ -1,0 +1,15 @@
+priority,pattern,direction,category
+1,REJET|IMPAYE,any,rejected_debit
+2,SALAIRE,credit,salary
+3,CAF|ALLOCATION|FRANCE TRAVAIL,credit,benefits
+4,FACTURE|VIR CLIENT,credit,freelance_income
+5,LOYER,debit,rent
+6,PARIS SPORTIF|CASINO|POKER,debit,gambling
+7,LIVRET|EPARGNE,debit,savings
+8,ELECTRICITE|GAZ|INTERNET|MOBILE,debit,utilities
+9,ABONNEMENT,debit,subscriptions
+10,SUPERMARCHE|EPICERIE|BOULANGERIE,debit,groceries
+11,RESTAURANT|BRASSERIE|PIZZERIA,debit,restaurants
+12,CARBURANT|TRANSPORT|PEAGE,debit,transport
+13,BOUTIQUE|MAGASIN,debit,shopping
+14,RETRAIT,debit,cash

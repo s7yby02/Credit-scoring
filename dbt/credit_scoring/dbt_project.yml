@@ -1,0 +1,24 @@
+name: credit_scoring
+version: "1.0.0"
+config-version: 2
+profile: credit_scoring
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+seeds:
+  credit_scoring:
+    category_rules:
+      +column_types:
+        priority: int64
+        pattern: string
+        direction: string
+        category: string
+
+models:
+  credit_scoring:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

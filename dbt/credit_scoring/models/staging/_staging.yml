@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: Deduplicated, categorized transactions.
+    columns:
+      - name: transaction_id
+        data_tests: [unique, not_null]
+      - name: account_id
+        data_tests: [not_null]
+      - name: category
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [salary, benefits, freelance_income, rent, gambling, savings, utilities,
+                         subscriptions, groceries, restaurants, transport, shopping, cash,
+                         rejected_debit, other]
+
+  - name: stg_applications
+    columns:
+      - name: application_id
+        data_tests: [unique, not_null]
+      - name: application_date
+        data_tests: [not_null]
+
+  - name: stg_outcomes
+    columns:
+      - name: application_id
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_applications')
+                field: application_id
