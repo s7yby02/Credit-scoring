@@ -1,0 +1,9 @@
+# Ray Serve config: listen on all interfaces so the API is reachable from outside the container
+http_options:
+  host: 0.0.0.0
+  port: 8000
+
+applications:
+  - name: credit-scoring
+    route_prefix: /
+    import_path: serving.app:app
