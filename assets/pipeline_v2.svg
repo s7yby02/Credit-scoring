@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
+  <title id="t">Credit Scoring Platform - Control Plane vs Data Plane Architecture</title>
+  <desc id="d">Separation between Control Plane (Airflow orchestration) and Data Plane (MongoDB, BigQuery, dbt, MLflow, Ray Serve).</desc>
+  <style>
+    :root {
+      --bg: #0d1117; --border: #30363d; --grid: #8b949e; --fg: #e6edf3; --muted: #8b949e;
+      --accent: #38bdf8; --wire: #30363d; --node: #161b22; --node-border: #30363d; --ink: #e6edf3;
+      --green: #22c55e; --purple: #a855f7; --control: #017cee;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff; --border: #d0d7de; --grid: #59636e; --fg: #1f2328; --muted: #59636e;
+        --accent: #0284c7; --wire: #d0d7de; --node: #f6f8fa; --node-border: #d0d7de; --ink: #1f2328;
+        --green: #16a34a; --purple: #9333ea; --control: #017cee;
+      }
+    }
+    .card { fill: var(--bg); stroke: var(--border); stroke-width: 2; }
+    .griddot { fill: var(--grid); }
+    .sans { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Ubuntu, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+    .wire { fill: none; stroke: var(--wire); stroke-width: 2; }
+    .control-wire { fill: none; stroke: var(--control); stroke-width: 1.5; stroke-dasharray: 4 4; animation: marchDown 1s linear infinite; }
+    .data-wire { fill: none; stroke: #38bdf8; stroke-width: 2.5; stroke-dasharray: 8 6; animation: marchRight 1.5s linear infinite; }
+    .halo { fill: var(--accent); opacity: .25; }
+    .core { fill: var(--accent); }
+    .node { fill: var(--node); stroke: var(--node-border); stroke-width: 1.5; }
+    .ring { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .label { fill: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 0.8px; }
+    .sublabel { fill: var(--accent); font-size: 10px; font-weight: 600; }
+    .title-plane { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+    .badge { fill: var(--node); stroke: var(--node-border); stroke-width: 1; rx: 6; }
+    @keyframes marchRight { to { stroke-dashoffset: -14; } }
+    @keyframes marchDown { to { stroke-dashoffset: -8; } }
+    @keyframes blink { 50% { fill-opacity: 0; } }
+    .cursor { animation: blink 1.1s steps(1) infinite; }
+  </style>
+
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle class="griddot" cx="12" cy="12" r="1.1"/>
+    </pattern>
+    <radialGradient id="spot" cx="80%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip"><rect x="1" y="1" width="1278" height="418" rx="20"/></clipPath>
+  </defs>
+
+  <!-- Background Card -->
+  <rect class="card" x="1" y="1" width="1278" height="418" rx="20"/>
+  <g clip-path="url(#clip)">
+    <rect width="1280" height="420" fill="url(#dots)" opacity=".12"/>
+    <rect width="1280" height="420" fill="url(#spot)"/>
+  </g>
+
+  <!-- ==================== TOP BAR: CONTROL PLANE (AIRFLOW) ==================== -->
+  <g transform="translate(48, 28)">
+    <!-- Plane Container -->
+    <rect x="0" y="0" width="1184" height="68" rx="14" fill="var(--node)" stroke="#017cee" stroke-opacity="0.4" stroke-width="1.5"/>
+    
+    <!-- Airflow Logo & Title -->
+    <g transform="translate(20, 14)">
+      <!-- Official Airflow Pinwheel Logo -->
+      <svg width="40" height="40" viewBox="0 0 256 256">
+        <path d="M4.1 255L126.7 129.3c.8-.8.9-2 .3-2.9-7.5-10.4-21.2-12.2-26.3-19.2C85.6 86.5 81.7 74.8 75.2 75.5c-.5.1-.9.3-1.2.6L29.8 121.5C4.3 147.6.7 205.1 0 253.3c0 1 .6 1.9 1.5 2.2.9.4 1.9.2 2.6-.5z" fill="#017CEE"/>
+        <path d="M255 251.9L129.3 129.3c-.8-.8-2-.9-2.9-.3-10.4 7.5-12.2 21.2-19.2 26.3-20.7 15.1-32.4 18.9-31.7 25.4.1.5.3.9.6 1.2l45.4 44.3c26.1 25.5 83.6 29.1 131.8 29.8 1 0 1.9-.6 2.2-1.5.4-.9.2-1.9-.5-2.6z" fill="#00AD46"/>
+        <path d="M251.9 1L129.3 126.7c-.8.8-.9 2-.3 2.9 7.5 10.4 21.2 12.2 26.3 19.2 20.7 15.1 32.4 18.9 31.7 25.4.1.5.3.9.6 1.2l44.3-45.4C251.7 108.4 255.3 50.9 256 2.7c0-1-.6-1.9-1.5-2.2-.9-.4-1.9-.2-2.6.5z" fill="#00C7D4"/>
+        <path d="M1 4.1L126.7 126.7c.8.8 2 .9 2.9.3 10.4-7.5 12.2-21.2 19.2-26.3 20.7-15.1 32.4-18.9 31.7-25.4-.1-.5-.3-.9-.6-1.2L134.5 29.8C108.4 4.3 50.9.7 2.7 0c-1 0-1.9.6-2.2 1.5-.4.9-.2 1.9.5 2.6z" fill="#E43921"/>
+        <circle cx="128" cy="128" r="5.5" fill="#4A4848"/>
+      </svg>
+      <text class="sans title-plane" x="52" y="18" fill="#017cee">CONTROL PLANE • ORCHESTRATION</text>
+      <text class="sans" x="52" y="34" font-size="12" fill="var(--muted)">Apache Airflow 3 (Isolated Docker Virtualenvs • No data travels here, purely command &amp; state signals)</text>
+    </g>
+
+    <!-- Airflow Status Badge -->
+    <g transform="translate(1030, 20)">
+      <rect class="badge" x="0" y="0" width="130" height="28"/>
+      <circle cx="14" cy="14" r="4" fill="#22c55e"/>
+      <text class="sans mono" x="26" y="18" font-size="11" font-weight="600" fill="#22c55e">7/7 Tasks Green</text>
+    </g>
+  </g>
+
+  <!-- ==================== VERTICAL CONTROL SIGNALS (DASHED BLUE) ==================== -->
+  <!-- 1. Airflow -> Ingestion -->
+  <path class="control-wire" d="M370,96 L370,185"/>
+  <text class="mono" x="375" y="145" font-size="9" fill="#017cee">1. trigger_ingest</text>
+
+  <!-- 2. Airflow -> dbt build -->
+  <path class="control-wire" d="M590,96 L590,185"/>
+  <text class="mono" x="595" y="145" font-size="9" fill="#017cee">2. dbt_build</text>
+
+  <!-- 3. Airflow -> Parity -->
+  <path class="control-wire" d="M780,96 L780,185"/>
+  <text class="mono" x="785" y="145" font-size="9" fill="#017cee">3. parity_test</text>
+
+  <!-- 4. Airflow -> Train -->
+  <path class="control-wire" d="M960,96 L960,185"/>
+  <text class="mono" x="965" y="145" font-size="9" fill="#017cee">4. train_model</text>
+
+  <!-- 5. Airflow -> Drift -->
+  <path class="control-wire" d="M1140,96 L1140,185"/>
+  <text class="mono" x="1145" y="145" font-size="9" fill="#017cee">5. drift_check</text>
+
+
+  <!-- ==================== BOTTOM LAYER: DATA PLANE (HORIZONTAL DATA FLOW) ==================== -->
+  <g transform="translate(48, 175)">
+    <!-- Data Plane Container -->
+    <rect x="0" y="0" width="1184" height="210" rx="16" fill="var(--node)" stroke="var(--node-border)" stroke-width="1.5"/>
+
+    <g transform="translate(24, 20)">
+      <text class="sans title-plane" x="0" y="0" fill="#38bdf8">DATA PLANE • STORAGE &amp; EXECUTION ENGINE</text>
+      <text class="sans" x="0" y="15" font-size="12" fill="var(--muted)">Actual flow of bank transactions, feature vectors, model weights, and low-latency inference payloads.</text>
+    </g>
+
+    <!-- ==================== DATA WIRES BETWEEN STAGES ==================== -->
+    <path class="data-wire" d="M140,105 L180,105"/>
+    <path class="data-wire" d="M300,105 L350,105"/>
+    <path class="data-wire" d="M470,105 L520,105"/>
+    <path class="data-wire" d="M640,105 L690,105"/>
+    <path class="data-wire" d="M810,105 L860,105"/>
+    <path class="data-wire" d="M980,105 L1030,105"/>
+
+    <!-- STAGE 1: Generator / PSD2 Ingestion -->
+    <g transform="translate(20, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12"/>
+      <text class="mono label" x="60" y="24" text-anchor="middle">OPEN BANKING</text>
+      <text class="sans" x="60" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">PSD2 Stream</text>
+      <text class="sans" x="60" y="60" text-anchor="middle" font-size="10" fill="var(--muted)">3.8k accounts • 630k tx</text>
+    </g>
+
+    <!-- STAGE 2: MongoDB Store -->
+    <g transform="translate(180, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12"/>
+      <!-- MongoDB Leaf -->
+      <svg x="12" y="16" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M12 0C11.5.2 4.3 6 4.3 13.7c0 4.3 3.4 7.8 7.7 9.9 4.3-2.1 7.7-5.6 7.7-9.9C19.7 6 12.5.2 12 0z" fill="#13AA52"/>
+        <path d="M12 23.6V0c.5.2 7.7 6 7.7 13.7 0 4.3-3.4 7.8-7.7 9.9z" fill="#119246"/>
+        <path d="M12 22.7c-.3-.2-.8-1.7-.8-1.7s-.3-2.2-.3-4.7c0-3.5.9-6 1.1-8.1v14.5z" fill="#fff"/>
+      </svg>
+      <text class="mono label" x="42" y="32">MONGODB</text>
+      <text class="sans" x="60" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">Doc Store</text>
+      <text class="sans" x="60" y="68" text-anchor="middle" font-size="10" fill="var(--muted)">JSON nested txs</text>
+    </g>
+
+    <!-- STAGE 3: BigQuery Lakehouse -->
+    <g transform="translate(350, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12"/>
+      <!-- BigQuery Logo -->
+      <svg x="12" y="16" width="24" height="24" viewBox="0 0 64 64">
+        <path d="M14.5 58.2L.6 34.1c-.7-1.3-.7-2.9 0-4.2L14.5 5.8c.7-1.3 2.1-2.1 3.6-2.1h27.9c1.5 0 2.8.8 3.6 2.1l13.9 24.1c.7 1.3.7 2.9 0 4.2L49.5 58.2c-.7 1.3-2.1 2.1-3.6 2.1H18.1c-1.5 0-2.9-.8-3.6-2.1z" fill="#4386FA"/>
+        <circle cx="35.8" cy="33.8" r="4.5" fill="#fff"/>
+      </svg>
+      <text class="mono label" x="42" y="32">BIGQUERY</text>
+      <text class="sans" x="60" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">Warehouse</text>
+      <text class="sans" x="60" y="68" text-anchor="middle" font-size="10" fill="var(--muted)">raw.* (partitioned)</text>
+    </g>
+
+    <!-- STAGE 4: dbt Core -->
+    <g transform="translate(520, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12"/>
+      <!-- dbt Logo -->
+      <svg x="12" y="16" width="24" height="24" viewBox="0 0 256 256">
+        <path d="M245.1 10.6C251.1 16.4 255.1 24.1 256 32.4c0 3.5-.9 5.8-3 10.2s-27.8 48.8-35.4 61.1c-4.4 7.2-6.7 15.7-6.7 24.1 0 8.6 2.3 16.9 6.7 24.1 7.6 12.3 33.3 56.9 35.4 61.3 2.1 4.4 3 6.5 3 10 0 8.3-3.7 16-9.7 21.5-5.8 6-13.4 10-21.5 10.7-3.5 0-5.8-.9-10-3-4.2-2.1-49.5-27.1-61.8-34.7-.9-.5-1.9-1.1-3-1.6L88.4 180.1c1.4 11.6 6.5 22.7 14.8 30.8 1.6 1.6 3.2 3 5.1 4.4-1.4.7-3 1.4-4.4 2.3-12.3 7.6-56.9 33.3-61.3 35.4-4.4 2.1-6.5 3-10.2 3-8.3-.9-16-4.6-21.5-10.6C4.9 239.6 1 232 0 223.6c.2-3.5 1.2-6.9 3-10 2.1-4.4 27.8-49.1 35.4-61.3 4.4-7.2 6.7-15.5 6.7-24.1 0-8.6-2.3-16.9-6.7-24.1C27.8 91.4 1.9 46.8 0 42.4c1.2-3 2.1-6.5 3-10C3.9 24.1 7.6 16.4 13.6 10.6 19.4 4.6 27.1.9 35.4 0c3.5.2 6.9 1.2 10.2 3 3.7 1.6 36.3 20.6 53.7 30.8l4 2.3c1.4.9 2.5 1.6 3.5 2.1l1.9 1.2 61.8 36.6c-1.4-13.9-8.6-26.6-19.7-35.2 1.4-.7 3-1.4 4.4-2.3C180.5 30.8 225.2 4.9 229.6 3c3-1.9 6.5-2.8 10.2-3 8.1.9 15.7 4.6 21.5 10.6z" fill="#FF694B"/>
+      </svg>
+      <text class="mono label" x="42" y="32">DBT CORE</text>
+      <text class="sans" x="60" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">Features &amp; Marts</text>
+      <text class="sans" x="60" y="68" text-anchor="middle" font-size="10" fill="#22c55e">19/19 tests PASS</text>
+    </g>
+
+    <!-- STAGE 5: MLflow & XGBoost -->
+    <g transform="translate(690, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12"/>
+      <!-- MLflow Icon -->
+      <svg x="12" y="18" width="22" height="22" viewBox="0 0 24 24">
+        <rect width="24" height="24" rx="4" fill="#0194E2"/>
+        <path d="M6 17V7L12 12L18 7V17" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <text class="mono label" x="40" y="32">MLFLOW</text>
+      <text class="sans" x="60" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">XGBoost Monotone</text>
+      <text class="sans" x="60" y="68" text-anchor="middle" font-size="10" fill="#38bdf8">Gini: 0.709 @champ</text>
+    </g>
+
+    <!-- STAGE 6: Ray Serve Real-time API -->
+    <g transform="translate(860, 65)">
+      <rect class="node" x="0" y="0" width="120" height="80" rx="12" stroke="#028cf0" stroke-width="2"/>
+      <!-- Ray Icon -->
+      <svg x="12" y="18" width="22" height="22" viewBox="0 0 24 24">
+        <path d="M12 2L2 19.5H22L12 2Z" fill="#028CF0"/>
+        <path d="M12 8L6.5 17.5H17.5L12 8Z" fill="#fff"/>
+      </svg>
+      <text class="mono label" x="40" y="32">RAY SERVE</text>
+      <text class="sans" x="60" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">Real-Time API</text>
+      <text class="sans" x="60" y="68" text-anchor="middle" font-size="10" fill="#028cf0">p95: 26 ms • 2 cpus</text>
+    </g>
+
+    <!-- STAGE 7: PSI Drift Engine -->
+    <g transform="translate(1030, 65)">
+      <rect class="node" x="0" y="0" width="130" height="80" rx="12" stroke="#f43f5e" stroke-width="1.5"/>
+      <text class="mono label" x="65" y="24" text-anchor="middle" fill="#f43f5e">MONITORING</text>
+      <text class="sans" x="65" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fg)">PSI Drift Alert</text>
+      <text class="sans" x="65" y="60" text-anchor="middle" font-size="10" fill="#f43f5e">Circuit breaker &gt; 0.25</text>
+    </g>
+
+  </g>
+
+  <!-- Legend at Bottom -->
+  <g class="sans" transform="translate(48, 395)">
+    <line x1="0" y1="0" x2="30" y2="0" stroke="#017cee" stroke-width="2" stroke-dasharray="4 4"/>
+    <text class="sans" x="38" y="4" font-size="11" fill="var(--muted)">Control Plane Signal (No Data, Purely Orchestration Triggers)</text>
+    <line x1="420" y1="0" x2="450" y2="0" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="8 6"/>
+    <text class="sans" x="458" y="4" font-size="11" fill="var(--muted)">Data Plane Flow (Actual Bank Transactions, Features &amp; Model Weights)</text>
+  </g>
+</svg>

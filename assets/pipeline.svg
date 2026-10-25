@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-labelledby="t d">
+  <title id="t">Credit Scoring MLOps Platform Architecture</title>
+  <desc id="d">End-to-end data platform: MongoDB, Airflow, BigQuery, dbt, Pytest, XGBoost, MLflow, and Ray Serve.</desc>
+  <style>
+    :root {
+      --bg: #0d1117; --border: #30363d; --grid: #8b949e; --fg: #e6edf3; --muted: #8b949e;
+      --accent: #38bdf8; --wire: #30363d; --node: #161b22; --node-border: #30363d; --ink: #e6edf3;
+      --green: #22c55e;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #ffffff; --border: #d0d7de; --grid: #59636e; --fg: #1f2328; --muted: #59636e;
+        --accent: #0284c7; --wire: #d0d7de; --node: #f6f8fa; --node-border: #d0d7de; --ink: #1f2328;
+        --green: #16a34a;
+      }
+    }
+    .card { fill: var(--bg); stroke: var(--border); stroke-width: 2; }
+    .griddot { fill: var(--grid); }
+    .glow { stop-color: var(--accent); }
+    .sans { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Ubuntu, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
+    .prompt { fill: var(--accent); font-size: 15px; font-weight: 600; letter-spacing: 0.5px; }
+    .name { fill: var(--fg); font-size: 38px; font-weight: 800; letter-spacing: -0.5px; }
+    .role { fill: var(--accent); font-size: 20px; font-weight: 600; }
+    .cursor { animation: blink 1.1s steps(1) infinite; }
+    .tagline { fill: var(--muted); font-size: 14px; line-height: 20px; }
+    .wire { fill: none; stroke: var(--wire); stroke-width: 2; }
+    .halo { fill: var(--accent); opacity: .22; }
+    .core { fill: var(--accent); }
+    .node { fill: var(--node); stroke: var(--node-border); stroke-width: 1.5; transition: stroke .3s; }
+    .ring { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .label { fill: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+    .sublabel { fill: var(--accent); font-size: 10px; font-weight: 600; }
+    .rail { fill: none; stroke: var(--wire); stroke-width: 2; stroke-dasharray: 6 8; animation: march 1.2s linear infinite; }
+    .badge { fill: var(--node); stroke: var(--node-border); stroke-width: 1; rx: 6; }
+    .badge-text { fill: var(--green); font-size: 11px; font-weight: 600; }
+    @keyframes blink { 50% { fill-opacity: 0; } }
+    @keyframes march { to { stroke-dashoffset: -14; } }
+    @media (prefers-reduced-motion: reduce) {
+      .dot, .ring { display: none; }
+      .cursor, .rail { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle class="griddot" cx="12" cy="12" r="1.1"/>
+    </pattern>
+    <radialGradient id="spot" cx="75%" cy="50%" r="50%">
+      <stop offset="0" class="glow" stop-opacity=".18"/>
+      <stop offset="1" class="glow" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip"><rect x="1" y="1" width="1278" height="358" rx="20"/></clipPath>
+  </defs>
+
+  <!-- Background Card -->
+  <rect class="card" x="1" y="1" width="1278" height="358" rx="20"/>
+  <g clip-path="url(#clip)">
+    <rect width="1280" height="360" fill="url(#dots)" opacity=".14"/>
+    <rect width="1280" height="360" fill="url(#spot)"/>
+  </g>
+
+  <!-- Left Header Branding -->
+  <g class="sans" transform="translate(54, 0)">
+    <text class="prompt mono" y="74">$ scoring-platform --status=healthy</text>
+    <text class="name" y="122">Credit Scoring MLOps</text>
+    <text class="role" y="156">Real-Time Open Banking Platform<tspan class="cursor" dx="4">_</tspan></text>
+    <text class="tagline" y="196">End-to-end ELT, dbt quality gates, monotonic XGBoost,</text>
+    <text class="tagline" y="218">MLflow Champion promotion &amp; Ray Serve (p95: 26 ms).</text>
+
+    <!-- Metrics Badges -->
+    <g transform="translate(0, 246)">
+      <!-- Badge 1 -->
+      <rect class="badge" x="0" y="0" width="105" height="26"/>
+      <circle cx="12" cy="13" r="3.5" fill="#22c55e"/>
+      <text class="badge-text mono" x="22" y="17">p95: 26ms</text>
+      <!-- Badge 2 -->
+      <rect class="badge" x="115" y="0" width="115" height="26"/>
+      <circle cx="127" cy="13" r="3.5" fill="#38bdf8"/>
+      <text class="badge-text mono" x="137" y="17" fill="#38bdf8">Gini: 0.709</text>
+      <!-- Badge 3 -->
+      <rect class="badge" x="240" y="0" width="120" height="26"/>
+      <circle cx="252" cy="13" r="3.5" fill="#f97316"/>
+      <text class="badge-text mono" x="262" y="17" fill="#f97316">19/19 Tests</text>
+      <!-- Badge 4 -->
+      <rect class="badge" x="370" y="0" width="100" height="26"/>
+      <circle cx="382" cy="13" r="3.5" fill="#a855f7"/>
+      <text class="badge-text mono" x="392" y="17" fill="#a855f7">PSI &lt; 0.25</text>
+    </g>
+  </g>
+
+  <!-- ==================== WIRING & ANIMATED DOTS ==================== -->
+  <g>
+    <!-- Wire 1: Mongo (600,160) -> Airflow (710,105) & BigQuery (710,215) -->
+    <path id="w1a" class="wire" d="M632,160 C670,160 670,105 710,105"/>
+    <path id="w1b" class="wire" d="M632,160 C670,160 670,215 710,215"/>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w1a"/></animateMotion></g>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w1b"/></animateMotion></g>
+
+    <!-- Wire 2: Airflow/BQ -> dbt (840,160) -->
+    <path id="w2a" class="wire" d="M774,105 C807,105 807,160 840,160"/>
+    <path id="w2b" class="wire" d="M774,215 C807,215 807,160 840,160"/>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-0.6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w2a"/></animateMotion></g>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-1.8s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w2b"/></animateMotion></g>
+
+    <!-- Wire 3: dbt -> MLflow & XGBoost (970,160) -->
+    <path id="w3" class="wire" d="M904,160 L970,160"/>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w3"/></animateMotion></g>
+
+    <!-- Wire 4: MLflow -> Ray Serve (1100,105) & Drift (1100,215) -->
+    <path id="w4a" class="wire" d="M1034,160 C1067,160 1067,105 1100,105"/>
+    <path id="w4b" class="wire" d="M1034,160 C1067,160 1067,215 1100,215"/>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-0.3s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w4a"/></animateMotion></g>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-1.5s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w4b"/></animateMotion></g>
+
+    <!-- Wire 5: Ray Serve to Client/Decision (1210,160) -->
+    <path id="w5" class="wire" d="M1164,105 C1187,105 1187,160 1210,160"/>
+    <g class="dot"><circle r="6" class="halo"/><circle r="3" class="core"/><animateMotion dur="2.4s" begin="-0.9s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#w5"/></animateMotion></g>
+  </g>
+
+  <!-- ==================== NODES WITH OFFICIAL LOGOS ==================== -->
+
+  <!-- NODE 1: MongoDB (Operational Store) -->
+  <g transform="translate(568, 128)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="0s" repeatCount="indefinite"/></rect>
+    <!-- Official MongoDB Leaf -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 24 24">
+      <path d="M12.0004 0.200195C11.5004 0.400195 4.30039 6.2002 4.30039 13.9002C4.30039 18.2002 7.70039 21.7002 12.0004 23.8002C16.3004 21.7002 19.7004 18.2002 19.7004 13.9002C19.7004 6.2002 12.5004 0.400195 12.0004 0.200195Z" fill="#13AA52"/>
+      <path d="M12.0004 23.8002V0.200195C12.5004 0.400195 19.7004 6.2002 19.7004 13.9002C19.7004 18.2002 16.3004 21.7002 12.0004 23.8002Z" fill="#119246"/>
+      <path d="M12.0004 22.9002C11.7004 22.7002 11.2004 21.2002 11.2004 21.2002C11.2004 21.2002 10.9004 19.0002 10.9004 16.5002C10.9004 13.0002 11.8004 10.5002 12.0004 8.4002V22.9002Z" fill="#FFFFFF"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">MONGODB</text>
+    <text class="sublabel mono" x="32" y="96" text-anchor="middle">RAW STORE</text>
+  </g>
+
+  <!-- NODE 2A: Apache Airflow (Orchestration) -->
+  <g transform="translate(710, 73)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-0.6s" repeatCount="indefinite"/></rect>
+    <!-- Official Airflow Pinwheel Logo -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 256 256">
+      <path d="M4.1 255L126.7 129.3c.8-.8.9-2 .3-2.9-7.5-10.4-21.2-12.2-26.3-19.2C85.6 86.5 81.7 74.8 75.2 75.5c-.5.1-.9.3-1.2.6L29.8 121.5C4.3 147.6.7 205.1 0 253.3c0 1 .6 1.9 1.5 2.2.9.4 1.9.2 2.6-.5z" fill="#017CEE"/>
+      <path d="M255 251.9L129.3 129.3c-.8-.8-2-.9-2.9-.3-10.4 7.5-12.2 21.2-19.2 26.3-20.7 15.1-32.4 18.9-31.7 25.4.1.5.3.9.6 1.2l45.4 44.3c26.1 25.5 83.6 29.1 131.8 29.8 1 0 1.9-.6 2.2-1.5.4-.9.2-1.9-.5-2.6z" fill="#00AD46"/>
+      <path d="M251.9 1L129.3 126.7c-.8.8-.9 2-.3 2.9 7.5 10.4 21.2 12.2 26.3 19.2 20.7 15.1 32.4 18.9 31.7 25.4.1.5.3.9.6 1.2l44.3-45.4C251.7 108.4 255.3 50.9 256 2.7c0-1-.6-1.9-1.5-2.2-.9-.4-1.9-.2-2.6.5z" fill="#00C7D4"/>
+      <path d="M1 4.1L126.7 126.7c.8.8 2 .9 2.9.3 10.4-7.5 12.2-21.2 19.2-26.3 20.7-15.1 32.4-18.9 31.7-25.4-.1-.5-.3-.9-.6-1.2L134.5 29.8C108.4 4.3 50.9.7 2.7 0c-1 0-1.9.6-2.2 1.5-.4.9-.2 1.9.5 2.6z" fill="#E43921"/>
+      <circle cx="128" cy="128" r="5.5" fill="#4A4848"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">AIRFLOW 3</text>
+  </g>
+
+  <!-- NODE 2B: Google BigQuery (Warehouse) -->
+  <g transform="translate(710, 183)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-1.8s" repeatCount="indefinite"/></rect>
+    <!-- Official BigQuery Logo -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 64 64">
+      <path d="M14.5 58.2L.6 34.1c-.7-1.3-.7-2.9 0-4.2L14.5 5.8c.7-1.3 2.1-2.1 3.6-2.1h27.9c1.5 0 2.8.8 3.6 2.1l13.9 24.1c.7 1.3.7 2.9 0 4.2L49.5 58.2c-.7 1.3-2.1 2.1-3.6 2.1H18.1c-1.5 0-2.9-.8-3.6-2.1z" fill="#4386FA"/>
+      <path d="M45.3 43.2l-4.3-4.3c-.1 0-.1-.1-.2-.1-1.3 1.3-3.1 2-5 2-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7c0 1.9-.7 3.7-2 5 0 .1.1.1.1.2l4.3 4.3c.3.3.3.7 0 .9l-1.1 1.1c-.2.2-.6.2-.9-.1z" fill="#FFFFFF"/>
+      <circle cx="35.8" cy="33.8" r="4.5" fill="#4386FA"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">BIGQUERY</text>
+  </g>
+
+  <!-- NODE 3: dbt Core (Transformation & 19 Tests) -->
+  <g transform="translate(840, 128)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-1.2s" repeatCount="indefinite"/></rect>
+    <!-- Official dbt Logo -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 256 256">
+      <path d="M245.1 10.6C251.1 16.4 255.1 24.1 256 32.4c0 3.5-.9 5.8-3 10.2s-27.8 48.8-35.4 61.1c-4.4 7.2-6.7 15.7-6.7 24.1 0 8.6 2.3 16.9 6.7 24.1 7.6 12.3 33.3 56.9 35.4 61.3 2.1 4.4 3 6.5 3 10 0 8.3-3.7 16-9.7 21.5-5.8 6-13.4 10-21.5 10.7-3.5 0-5.8-.9-10-3-4.2-2.1-49.5-27.1-61.8-34.7-.9-.5-1.9-1.1-3-1.6L88.4 180.1c1.4 11.6 6.5 22.7 14.8 30.8 1.6 1.6 3.2 3 5.1 4.4-1.4.7-3 1.4-4.4 2.3-12.3 7.6-56.9 33.3-61.3 35.4-4.4 2.1-6.5 3-10.2 3-8.3-.9-16-4.6-21.5-10.6C4.9 239.6 1 232 0 223.6c.2-3.5 1.2-6.9 3-10 2.1-4.4 27.8-49.1 35.4-61.3 4.4-7.2 6.7-15.5 6.7-24.1 0-8.6-2.3-16.9-6.7-24.1C27.8 91.4 1.9 46.8 0 42.4c1.2-3 2.1-6.5 3-10C3.9 24.1 7.6 16.4 13.6 10.6 19.4 4.6 27.1.9 35.4 0c3.5.2 6.9 1.2 10.2 3 3.7 1.6 36.3 20.6 53.7 30.8l4 2.3c1.4.9 2.5 1.6 3.5 2.1l1.9 1.2 61.8 36.6c-1.4-13.9-8.6-26.6-19.7-35.2 1.4-.7 3-1.4 4.4-2.3C180.5 30.8 225.2 4.9 229.6 3c3-1.9 6.5-2.8 10.2-3 8.1.9 15.7 4.6 21.5 10.6zM131.2 144.4l13.2-13.2c1.9-1.9 1.9-4.6 0-6.5l-13.2-13.2c-1.9-1.9-4.6-1.9-6.5 0l-13.2 13.2c-1.9 1.9-1.9 4.6 0 6.5l13.2 13.2c1.6 1.6 4.6 1.6 6.5 0z" fill="#FF694B"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">DBT CORE</text>
+    <text class="sublabel mono" x="32" y="96" text-anchor="middle">19 TESTS PASS</text>
+  </g>
+
+  <!-- NODE 4: MLflow & XGBoost (Training & Registry) -->
+  <g transform="translate(970, 128)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-1.8s" repeatCount="indefinite"/></rect>
+    <!-- Official MLflow Logo -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 24 24">
+      <rect width="24" height="24" rx="4" fill="#0194E2"/>
+      <path d="M6 17V7L12 12L18 7V17" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">MLFLOW</text>
+    <text class="sublabel mono" x="32" y="96" text-anchor="middle">XGBOOST 0.709</text>
+  </g>
+
+  <!-- NODE 5A: Ray Serve (Real-time Serving) -->
+  <g transform="translate(1100, 73)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-2.4s" repeatCount="indefinite"/></rect>
+    <!-- Official Ray Logo -->
+    <svg x="14" y="14" width="36" height="36" viewBox="0 0 24 24">
+      <path d="M12 2L2 19.5H22L12 2Z" fill="#028CF0"/>
+      <path d="M12 8L6.5 17.5H17.5L12 8Z" fill="#FFFFFF"/>
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle">RAY SERVE</text>
+    <text class="sublabel mono" x="32" y="96" text-anchor="middle">P95: 26 MS</text>
+  </g>
+
+  <!-- NODE 5B: PSI Drift Monitor -->
+  <g transform="translate(1100, 183)">
+    <rect class="node" x="0" y="0" width="64" height="64" rx="16"/>
+    <rect class="ring" x="-4" y="-4" width="72" height="72" rx="20" opacity="0"><animate attributeName="opacity" values="0;0.9;0" keyTimes="0;0.15;1" dur="3s" begin="-1.2s" repeatCount="indefinite"/></rect>
+    <!-- Alert Bell Icon -->
+    <svg x="16" y="16" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F43F5E" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+    </svg>
+    <text class="label mono" x="32" y="82" text-anchor="middle" fill="#F43F5E">PSI DRIFT</text>
+    <text class="sublabel mono" x="32" y="96" text-anchor="middle" fill="#F43F5E">ALERT &gt; 0.25</text>
+  </g>
+
+  <!-- NODE 6: Decision / Output API -->
+  <g transform="translate(1210, 128)">
+    <circle cx="24" cy="32" r="24" fill="var(--node)" stroke="#22c55e" stroke-width="2"/>
+    <text class="sans" x="24" y="38" text-anchor="middle" font-size="14" font-weight="800" fill="#22c55e">A-D</text>
+    <text class="label mono" x="24" y="74" text-anchor="middle">DECISION</text>
+  </g>
+
+  <!-- Bottom Track / Orchestration Footer -->
+  <g class="mono" transform="translate(568, 320)">
+    <text class="rail-label" x="0" y="14" fill="var(--muted)">orchestrated with Apache Airflow &amp; Docker Compose</text>
+    <path class="rail" d="M370,10 H670"/>
+  </g>
+</svg>
