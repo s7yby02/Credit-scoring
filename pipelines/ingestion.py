@@ -110,7 +110,7 @@ def load_table(table: str, ingestion_date: str, full_refresh: bool, start=None, 
         print(f"{table}: nothing new to load")
         return 0
 
-    # Incremental runs overwrite only their own partition (table$YYYYMMDD): rerunning a day never duplicates.
+    # Incremental runs overwrite only their own partition (table$YYYYMMDD)
     destination = f"{table_id}${ingestion_date.replace('-', '')}" if incremental else table_id
     job_config = bigquery.LoadJobConfig(
         schema=SCHEMAS[table],

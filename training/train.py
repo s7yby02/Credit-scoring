@@ -19,7 +19,7 @@ from features.compute import FEATURE_COLUMNS
 from monitoring.psi import build_reference_profile
 
 MODEL_NAME = os.getenv("MODEL_NAME", "credit-scoring")
-SPLIT_DATE = pd.Timestamp(os.getenv("SPLIT_DATE", "2025-04-01"))  # train before, test after
+SPLIT_DATE = pd.Timestamp(os.getenv("SPLIT_DATE", "2025-04-01"))
 MIN_GINI = float(os.getenv("MIN_GINI", "0.50"))
 PARAMS = {
     "n_estimators": 200,
@@ -30,7 +30,7 @@ PARAMS = {
     "colsample_bytree": 0.8,
     "eval_metric": "auc",
 }
-# Risk may only go up with these signals (and down with income): easier to explain to a lender
+# Risk may only go up with these signals (and down with income)
 MONOTONE = {"avg_monthly_income": -1, "gambling_share": 1, "n_rejected_debits": 1, "negative_balance_days": 1}
 
 
